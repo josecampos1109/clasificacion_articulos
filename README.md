@@ -1,0 +1,2 @@
+# clasificacion_articulos
+automatico
