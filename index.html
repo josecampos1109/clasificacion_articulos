@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificador de Categorías</title>
+</head>
+<body>
+    <h1>Clasificador de Categorías</h1>
+    <form id="clasificar-form">
+        <label for="texto">Ingrese el texto a clasificar:</label><br>
+        <textarea id="texto" rows="4" cols="50"></textarea><br>
+        <button type="submit">Clasificar</button>
+    </form>
+    <h2 id="resultado" style="display: none;"></h2>
+
+    <script>
+        document.getElementById('clasificar-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const texto = document.getElementById('texto').value;
+            const response = await fetch('/clasificar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ texto: texto })
+            });
+
+            const data = await response.json();
+            const resultadoElement = document.getElementById('resultado');
+
+            if (response.ok) {
+                resultadoElement.textContent = La categoría es: ${data.categoria};
+                resultadoElement.style.display = 'block';
+            } else {
+                resultadoElement.textContent = Error: ${data.error};
+                resultadoElement.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
